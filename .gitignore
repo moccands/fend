@@ -2,3 +2,5 @@
 node_modules/
 bower_components/
 projects/evaluate-news-nlp/protectenv.env
+projects/evaluate-news-nlp/.env
+projects/evaluate-news-nlp/src/.env
