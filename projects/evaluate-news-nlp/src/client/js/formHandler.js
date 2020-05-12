@@ -13,13 +13,34 @@ function handleSubmit(event) {
     client.checkForName(formText)
 
     console.log("::: Form Submitted :::")
-    fetch('http://localhost:8081/test/?' + $.param({"text":formText}))
-    .then(res => res.json())
-    .then(function(res) {
-        document.getElementById('results').innerHTML = res.message
-        console.log(message)
-
+    postData('http://localhost:8081/send', {data : formText }).then(function(res) {
+        fetch('http://localhost:8081/analyseText')
+        .then(res => res.json())
+        .then(function(res) {
+            document.getElementById('results').innerHTML = res.message
+            console.log(message)
+        })
     })
 }
 
+
+const postData = async ( url = '', data = {})=>{
+    const response = await fetch(url, {
+    method: 'POST', // *GET, POST, PUT, DELETE, etc.
+    credentials: 'same-origin', // include, *same-origin, omit
+    headers: {
+        'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data), // body data type must match "Content-Type" header        
+  });
+
+    try {
+      const newData = await response.json();
+      console.log(newData);
+      return newData
+    }catch(error) {
+    console.log("error", error);
+    // appropriately handle the error
+    }
+}
 export { handleSubmit }

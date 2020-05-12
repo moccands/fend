@@ -22,6 +22,11 @@ const bodyParser = require("body-parser");
 const cors= require("cors");
         app.use(cors());
 
+app.get('/test', function (req, res) {
+    console.log("test")
+    res.send(mockAPIResponse)
+})
+
 app.get('/', function (req, res) {
     // res.sendFile('dist/index.html')
     res.sendFile(path.resolve('src/client/views/index.html'))
@@ -32,21 +37,24 @@ app.listen(8081, function () {
     console.log('Example app listening on port 8081!')
 })
 
-app.get('/test', function (req, res) {
+app.post('/send,', (req, res) => {
+    console.log("post data ")
+    url = req.body
+})
+
+
+app.get('/analyseText', function (req, res) {
     textapi.sentiment({
-        "text": req.params.text,
+        "text": url,
         "mode": "document"
       }, function(error, response) {
         if (error === null) {
           console.log(response);
-         //
-
-         mockAPIResponse.message = response.polarity
-          res.send(mockAPIResponse)
+          res.send(response);
         }
         else {
             console.log('ERROR '+error);
-            res.send(mockAPIResponse)
+            res.send({text:"invalid"});
         }
     });
 
