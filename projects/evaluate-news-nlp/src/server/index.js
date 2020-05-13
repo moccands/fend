@@ -10,8 +10,7 @@ var textapi = new aylien({
     application_key: process.env.API_KEY
     });
 
-app.use(express.static('dist'))
-console.log('fdaslkj------------------------------------------------------------')
+//app.use(express.static('dist'))
 console.log(__dirname)
 console.log(`Your API key is ${process.env.API_KEY}`);
 
@@ -22,30 +21,19 @@ const bodyParser = require("body-parser");
 const cors= require("cors");
         app.use(cors());
 
-app.get('/test', function (req, res) {
-    console.log("test")
-    res.send(mockAPIResponse)
-})
-
 app.get('/', function (req, res) {
-    // res.sendFile('dist/index.html')
-    res.sendFile(path.resolve('src/client/views/index.html'))
+   res.sendFile('dist/index.html')
 })
 
 // designates what port the app will listen to for incoming requests
 app.listen(8081, function () {
-    console.log('Example app listening on port 8081!')
-})
-
-app.post('/send,', (req, res) => {
-    console.log("post data ")
-    url = req.body
+    console.log('app listening on port 8081!')
 })
 
 
 app.get('/analyseText', function (req, res) {
     textapi.sentiment({
-        "text": url,
+        "text": req.body,
         "mode": "document"
       }, function(error, response) {
         if (error === null) {
@@ -58,4 +46,9 @@ app.get('/analyseText', function (req, res) {
         }
     });
 
+})
+
+app.get('/test', function (req, res) {
+    console.log("testfdasfdas")
+    res.send(mockAPIResponse)
 })

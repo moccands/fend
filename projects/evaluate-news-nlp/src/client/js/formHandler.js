@@ -5,7 +5,7 @@ var textapi = new aylien({
     application_key: process.env.API_KEY
     })*/
 
-function handleSubmit(event) {
+async function handleSubmit(event) {
     event.preventDefault()
 
     // check what text was put into the form field
@@ -13,14 +13,10 @@ function handleSubmit(event) {
     client.checkForName(formText)
 
     console.log("::: Form Submitted :::")
-    postData('http://localhost:8081/send', {data : formText }).then(function(res) {
-        fetch('http://localhost:8081/analyseText')
-        .then(res => res.json())
-        .then(function(res) {
+     await  postData('http://localhost:8081/analyseText', {data : formText }).then(function(res) {
             document.getElementById('results').innerHTML = res.message
             console.log(message)
         })
-    })
 }
 
 
